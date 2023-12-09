@@ -7,6 +7,9 @@ class MaxHeap:
         self.array = array
         self.heapsize = len(array)
 
+    def parent(self, i):
+        return i // 2
+
     def left(self, i):
         # Get the left child index of the element at index 'i'.
         return 2 * i
