@@ -1,32 +1,61 @@
 class Stack:
+    """
+    Implements a basic stack data structure.
+
+    Attributes:
+        bufsize (int): The maximum number of elements the stack can hold.
+        stackarr (list): A list representing the stack.
+        stacksize (int): The current number of elements in the stack.
+    """
+
     def __init__(self, bufsize=16):
-        # Initialize the Stack object with a specified buffer size.
+        """
+        Initializes a new Stack object with the specified buffer size.
+
+        Args:
+            bufsize (int): The maximum number of elements the stack can hold (default: 16).
+        """
         self.bufsize = bufsize
-        # Create a list to represent the stack with the given buffer size,
-        # and set the initial stack size to 0.
         self.stackarr = [None] * self.bufsize
         self.stacksize = 0
 
     def push(self, element):
-        # Push an element onto the stack.
-        # Check if the stack is full, and raise an exception if it is.
+        """
+        Pushes an element onto the stack.
+
+        Raises:
+            Exception: If the stack is already full.
+
+        Args:
+            element: The element to be pushed onto the stack.
+        """
         if self.stacksize == self.bufsize:
             raise Exception("Stack full")
-        # Add the element to the stack and increment the stack size.
         self.stackarr[self.stacksize] = element
         self.stacksize += 1
 
     def pop(self):
-        # Pop an element from the stack.
-        # Check if the stack is empty, and raise an exception if it is.
+        """
+        Pops and returns the top element from the stack.
+
+        Raises:
+            Exception: If the stack is already empty.
+
+        Returns:
+            object: The popped element.
+        """
         if not self.stacksize:
             raise Exception("Stack empty")
-        # Decrement the stack size and return the popped element.
         self.stacksize -= 1
         return self.stackarr[self.stacksize]
 
     def empty(self):
-        # Check if the stack is empty.
+        """
+        Checks if the stack is empty.
+
+        Returns:
+            bool: True if the stack is empty, False otherwise.
+        """
         return not self.stacksize
 
 

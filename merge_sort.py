@@ -1,18 +1,26 @@
 def merge_sort(arr):
+    """
+    Sorts an array of elements using the merge sort algorithm.
+
+    Args:
+        arr: The array of elements to be sorted.
+    """
+
     # Check if the array has more than one element
     if len(arr) > 1:
         # Split the array into two halves
-        left_arr = arr[: len(arr) // 2]
-        right_arr = arr[len(arr) // 2 :]
+        mid_index = len(arr) // 2
+        left_arr = arr[:mid_index]
+        right_arr = arr[mid_index:]
 
         # Recursively apply merge_sort to both halves
-        merge_sort(right_arr)
         merge_sort(left_arr)
+        merge_sort(right_arr)
 
         # Initialize counters for left, right, and merged array
-        i = 0
-        j = 0
-        k = 0
+        i = 0  # Index for left array
+        j = 0  # Index for right array
+        k = 0  # Index for merged array
 
         # Merge the two halves into the original array
         while i < len(left_arr) and j < len(right_arr):

@@ -1,9 +1,18 @@
 def multall(arr):
-    # Recursive function to multiply all elements in a nested list.
+    """
+    Recursively multiplies all elements in a nested list.
+
+    Args:
+        arr: The nested list of elements to be multiplied.
+
+    Returns:
+        int: The product of all elements in the nested list.
+    """
+
     product = 1
     for factor in arr:
-        # If the element is a list, recursively call the function to compute its product.
-        if type(factor) == list:
+        # Check if the element is a list, recursively call the function to compute its product.
+        if isinstance(factor, list):
             product *= multall(factor)
         # If the element is not a list, multiply it directly with the current product.
         else:

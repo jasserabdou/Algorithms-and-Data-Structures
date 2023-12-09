@@ -1,18 +1,45 @@
 class Queue:
+    """
+    Implements a basic queue data structure.
+
+    Attributes:
+        bufsize: The maximum number of elements the queue can hold.
+        queuesize: The current number of elements in the queue.
+        queuestart: The index of the first element in the queue.
+        queuearr: A list of elements representing the queue.
+    """
+
     def __init__(self, bufsize=8):
-        # Initialize a Queue object with a specified buffer size.
+        """
+        Initializes a new Queue object with the specified buffer size.
+
+        Args:
+            bufsize: The maximum number of elements the queue can hold (default: 8).
+        """
         self.bufsize = bufsize
-        # Set initial queue size, start index, and create a list to represent the queue.
         self.queuesize = 0
         self.queuestart = 0
         self.queuearr = [None] * bufsize
 
     def empty(self):
-        # Check if the queue is empty.
+        """
+        Checks if the queue is empty.
+
+        Returns:
+            bool: True if the queue is empty, False otherwise.
+        """
         return not self.queuesize
 
     def enqueue(self, item):
-        # Add an item to the back of the queue.
+        """
+        Adds an item to the back of the queue.
+
+        Raises:
+            Exception: If the queue is already full.
+
+        Args:
+            item: The element to be added to the queue.
+        """
         if self.queuesize >= self.bufsize:
             raise Exception("Queue full")
 
@@ -22,7 +49,15 @@ class Queue:
         self.queuesize += 1
 
     def dequeue(self):
-        # Remove and return the item from the front of the queue.
+        """
+        Removes and returns the item from the front of the queue.
+
+        Raises:
+            Exception: If the queue is already empty.
+
+        Returns:
+            object: The element removed from the queue.
+        """
         if not self.queuesize:
             raise Exception("Queue empty")
 

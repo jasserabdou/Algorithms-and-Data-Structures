@@ -1,8 +1,21 @@
 def find(item, arr, bot, top):
+    """
+    Performs a binary search to find the index of an item in a sorted array.
+
+    Args:
+        item: The item to search for.
+        arr: The sorted array of elements.
+        bot: The bottom index of the search range.
+        top: The top index of the search range (exclusive).
+
+    Returns:
+        The index of the item in the array, or None if not found.
+    """
+
     # Base case: If the range between 'bot' and 'top' is just one element,
     # check if the item is equal to the element at 'bot' position.
     # If true, return the index 'bot'; otherwise, return None.
-    if (top - bot) == 1:
+    if top - bot == 1:
         if arr[bot] == item:
             return bot
         else:

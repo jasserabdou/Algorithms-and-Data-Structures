@@ -1,53 +1,120 @@
 class Node:
+    """
+    Represents a node in a doubly linked list.
+
+    Attributes:
+        data: The data stored in the node.
+        prev: The reference to the previous node in the list.
+        next: The reference to the next node in the list.
+    """
+
     def __init__(self, data=None, prev=None, next=None):
-        # Initialize a node with data, previous, and next references
+        """
+        Initializes a new node with the provided data and references.
+
+        Args:
+            data: The data to be stored in the node.
+            prev: The reference to the previous node (optional).
+            next: The reference to the next node (optional).
+        """
         self.data = data
         self.prev = prev
         self.next = next
 
 
 class DoublyLinkedList:
+    """
+    Implements a doubly linked list data structure.
+
+    Attributes:
+        start: The reference to the first node in the list.
+        end: The reference to the last node in the list.
+        _length: The cached length of the list (optional).
+    """
+
     def __init__(self):
-        # Initialize an empty doubly linked list with no starting and ending nodes
+        """
+        Initializes an empty doubly linked list.
+        """
         self.start = None
         self.end = None
-        self._length = None  # Cache for storing the length of the linked list
+        self._length = None  # Cached length for faster access
 
     def nodes(self):
-        # Generator function to iterate through all nodes in the doubly linked list
+        """
+        Iterates through all nodes in the list.
+
+        Yields:
+            Node: Each node in the list one by one.
+        """
         point = self.start
         while point:
             yield point
             point = point.next
 
     def nodes_reverse(self):
-        # Generator function to iterate through all nodes in the doubly linked list in reverse order
+        """
+        Iterates through all nodes in the list in reverse order.
+
+        Yields:
+            Node: Each node in the list from the end to the beginning.
+        """
         point = self.end
         while point:
             yield point
             point = point.prev
 
     def __repr__(self):
-        # Representation of the doubly linked list for debugging purposes
+        """
+        Provides a string representation of the list for debugging.
+
+        Returns:
+            str: A string with the data of each node in the list.
+        """
+        output = ""
         for node in self.nodes():
-            print(node.data)
+            output += f"{node.data}\n"
+        return output
 
     def __str__(self):
-        # String representation of the doubly linked list
+        """
+        Provides a string representation of the list.
+
+        Returns:
+            str: The same output as __repr__.
+        """
         return self.__repr__()
 
     def length(self):
-        # Calculate the length of the doubly linked list
+        """
+        Calculates and returns the length of the list.
+
+        Returns:
+            int: The number of nodes in the list.
+        """
         if self._length is not None:
             return self._length
+
         count = 0
         for _ in self.nodes():
             count += 1
+
         self._length = count
         return count
 
     def node_at(self, location):
-        # Get the node at a specific location in the doubly linked list
+        """
+        Retrieves the node at a specific location in the list.
+
+        Args:
+            location: The index of the desired node (0-based).
+
+        Returns:
+            Node: The node at the specified location.
+
+        Raises:
+            Exception: If the location is outside the list bounds.
+        """
         for n in self.nodes():
             if not location:
                 return n
@@ -55,44 +122,85 @@ class DoublyLinkedList:
         raise Exception("No entry in list")
 
     def data_at(self, location):
-        # Get the data at a specific location in the doubly linked list
+        """
+        Retrieves the data stored in the node at a specific location in the list.
+
+        Args:
+            location: The index of the desired node (0-based).
+
+        Returns:
+            object: The data stored in the node at the specified location.
+
+        Raises:
+            Exception: If the location is outside the list bounds.
+        """
         return self.node_at(location).data
 
     def insert_at(self, entry, location):
-        # Insert a new node with data 'entry' at the specified location in the doubly linked list
+        """
+        Inserts a new node with the given data at a specific location in the list.
+
+        Args:
+            entry: The data to be stored in the new node.
+            location: The index where the new node should be inserted (0-based).
+
+        Raises:
+            Exception: If the location is outside the list bounds.
+        """
         new_node = Node(data=entry)
-        new_node.next = self.start
-        new_node.prev = None
 
-        while location:
-            if not new_node.next:
-                raise Exception("Index outside of list")
-            location -= 1
-            new_node.prev = new_node.next
-            new_node.next = new_node.next.next
+        # Update start and end references if inserting at the beginning or end
+        if not location:
+            new_node.next = self.start
+            new_node.prev = None
 
-        # Increment the length of the linked list
+            if self.start:
+                self.start
+        # Update start and end references if inserting at the beginning or end
+        if not location:
+            new_node.next = self.start
+            new_node.prev = None
+
+            if self.start:
+                self.start.prev = new_node
+            else:
+                self.end = new_node
+
+            self.start = new_node
+        else:
+            # Traverse the list to find the insertion location
+            point = self.start
+            while location:
+                if not point.next:
+                    raise Exception("Index outside of list")
+                location -= 1
+                point = point.next
+
+            # Insert the new node between point and its next node
+            new_node.prev = point
+            new_node.next = point.next
+            point.next = new_node
+
+            if new_node.next:
+                new_node.next.prev = new_node
+
+        # Update the cached length of the list
         if self._length is not None:
             self._length += 1
-        else:
-            self._length = 1
-
-        # Fix predecessor nodes
-        if new_node.prev:
-            new_node.prev.next = new_node
-        else:
-            self.start = new_node
-
-        # Fix successor nodes
-        if new_node.next:
-            new_node.next.prev = new_node
-        else:
-            self.end = new_node
 
     def delete_at(self, location):
-        # Delete the node at the specified location in the doubly linked list
+        """
+        Deletes the node at a specific location in the list.
+
+        Args:
+            location: The index of the node to be deleted (0-based).
+
+        Raises:
+            Exception: If the location is outside the list bounds.
+        """
         point = self.start
 
+        # Traverse the list to find the node to be deleted
         while location and point:
             location -= 1
             point = point.next
@@ -100,20 +208,19 @@ class DoublyLinkedList:
         if not point:
             raise Exception("No such element")
 
-        # Decrement the length of the linked list
-        self._length -= 1
-
-        # Fix predecessor nodes
+        # Update references for deletion
         if point.prev:
             point.prev.next = point.next
         else:
             self.start = point.next
 
-        # Fix successor nodes
         if point.next:
             point.next.prev = point.prev
         else:
             self.end = point.prev
+
+        # Update the cached length of the list
+        self._length -= 1
 
 
 # Create an instance of the DoublyLinkedList class.
@@ -122,7 +229,6 @@ doubly_linked_list = DoublyLinkedList()
 # Insert elements [2, 3, 4, 5] into the doubly linked list.
 for i in [2, 3, 4, 5]:
     doubly_linked_list.insert_at(i, 0)  # Insert at the beginning for this example
-
 
 # Print the length of the doubly linked list.
 print("Length:", doubly_linked_list.length())
@@ -147,7 +253,6 @@ print(
 location_to_delete = 1
 doubly_linked_list.delete_at(location_to_delete)
 print(f"Doubly Linked List after deleting element at location {location_to_delete}:")
-
 
 # Print the length of the doubly linked list after deletion.
 print("Length after deletion:", doubly_linked_list.length())
