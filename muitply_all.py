@@ -21,4 +21,8 @@ def multall(arr):
 
 
 # Example usage: Multiply all elements in the nested list [1, 5, 6, [2, 3, [5, 4]]].
-print(multall([1, 5, 6, [2, 3, [5, 4]]]))
+test_arr = [1, 5, 6, [2, 3, [5, 4]]]
+res = multall(test_arr)
+print(res) 
+
+
