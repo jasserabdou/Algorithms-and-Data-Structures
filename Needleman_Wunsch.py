@@ -4,6 +4,9 @@ penalties = {"sub": -1, "gap": -1, "equ": 0}
 
 
 def sc(b1, b2):
+    """
+    This function returns the score for a substitution or a match.
+    """
     if b1 == b2:
         return penalties["equ"]
     else:
@@ -11,10 +14,16 @@ def sc(b1, b2):
 
 
 def sc_gap():
+    """
+    This function returns the score for a gap.
+    """
     return penalties["gap"]
 
 
 def reconstruct(f, g1, g2, i, j):
+    """
+    This function reconstructs the alignment from the scoring matrix.
+    """
     if not i and not j:
         yield "", ""
 
@@ -35,6 +44,9 @@ def reconstruct(f, g1, g2, i, j):
 
 
 def score(g1, g2):
+    """
+    This function calculates the scoring matrix and prints the alignment.
+    """
     f = [[0 for j in range(len(g2) + 1)] for i in range(len(g1) + 1)]
 
     for i in range(len(g1) + 1):
@@ -67,12 +79,18 @@ def score(g1, g2):
 
 
 def load_data(filename):
+    """
+    This function loads the sequences from a file.
+    """
     f = open(filename)
     sequences = [seq for seq in f if len(seq) > 0]
     return sequences
 
 
 def align():
+    """
+    This function loads the sequences and aligns them.
+    """
     sequences = load_data("basestring.dat")
     sequences = [s.strip() for s in sequences]
     for i in range(1, len(sequences)):
